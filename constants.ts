@@ -1,4 +1,4 @@
-import { User, Role, StaffRole, Chat, Announcement, ConsultationCategory, JobPosting } from './types';
+import { User, Role, StaffRole, Chat, Announcement, ConsultationCategory, JobPosting, ServerAdminPermission } from './types';
 
 export const MOCK_USERS: { [key: string]: User } = {
   student1: { id: 's1', name: 'Budi Santoso', email: 'budi.santoso@student.unsri.ac.id', role: Role.STUDENT, nim_nip: '09031282126001', password: 'password123', avatarUrl: 'https://picsum.photos/seed/s1/100/100' },
@@ -12,7 +12,20 @@ export const MOCK_USERS: { [key: string]: User } = {
   alumni1: { id: 'a1', name: 'Eka Wijaya', email: 'eka.wijaya@alumni.unsri.ac.id', role: Role.ALUMNI, nim_nip: '09031281722001', password: 'password123', avatarUrl: 'https://picsum.photos/seed/a1/100/100', graduationYear: 2021 },
   alumni2: { id: 'a2', name: 'Fajar Nugraha', email: 'fajar.n@alumni.unsri.ac.id', role: Role.ALUMNI, nim_nip: '09031281722002', password: 'password123', avatarUrl: 'https://picsum.photos/seed/a2/100/100', graduationYear: 2021 },
   alumni3: { id: 'a3', name: 'Gita Permata', email: 'gita.p@alumni.unsri.ac.id', role: Role.ALUMNI, nim_nip: '09021181621003', password: 'password123', avatarUrl: 'https://picsum.photos/seed/a3/100/100', graduationYear: 2020 },
-  serverAdmin: { id: 'sa1', name: 'Admin Server', email: 'admin@unsri.ac.id', role: Role.SERVER_ADMIN, nim_nip: 'ADMIN001', password: 'admin', avatarUrl: 'https://picsum.photos/seed/sa1/100/100' },
+  serverAdmin: { 
+    id: 'sa1', 
+    name: 'Admin Server', 
+    email: 'admin@unsri.ac.id', 
+    role: Role.SERVER_ADMIN, 
+    nim_nip: 'ADMIN001', 
+    password: 'admin', 
+    avatarUrl: 'https://picsum.photos/seed/sa1/100/100',
+    permissions: [
+        ServerAdminPermission.MANAGE_USERS,
+        ServerAdminPermission.MONITOR_CHATS,
+        ServerAdminPermission.MANAGE_ANNOUNCEMENTS
+    ]
+  },
 };
 
 export const MOCK_CHATS: Chat[] = [

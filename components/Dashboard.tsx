@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Role, Announcement, Chat } from '../types';
+import { User, Role, Announcement, Chat, ServerAdminPermission } from '../types';
 import { Theme } from '../App';
 import StudentDashboard from './StudentDashboard';
 import LecturerDashboard from './LecturerDashboard';
@@ -22,9 +22,9 @@ interface DashboardProps {
   onCreateAnnouncement: (announcement: Omit<Announcement, 'id' | 'date' | 'author'>) => void;
 }
 
-const getMenuItems = (role: Role) => {
+const getMenuItems = (user: User) => {
     let menu;
-    switch (role) {
+    switch (user.role) {
         case Role.STUDENT:
             menu = [
                 { name: 'Chat Pribadi', icon: MessageCircleIcon },
@@ -63,12 +63,17 @@ const getMenuItems = (role: Role) => {
             ];
             break;
         case Role.SERVER_ADMIN:
-            menu = [
-                { name: 'Dashboard Utama', icon: BarChart3Icon },
-                { name: 'Manajemen Pengguna', icon: UsersIcon },
-                { name: 'Monitor Percakapan', icon: MessageCircleIcon },
-                { name: 'Kelola Pengumuman', icon: MegaphoneIcon },
-            ]
+            const adminMenu = [{ name: 'Dashboard Utama', icon: BarChart3Icon }];
+            if (user.permissions?.includes(ServerAdminPermission.MANAGE_USERS)) {
+                adminMenu.push({ name: 'Manajemen Pengguna', icon: UsersIcon });
+            }
+            if (user.permissions?.includes(ServerAdminPermission.MONITOR_CHATS)) {
+                adminMenu.push({ name: 'Monitor Percakapan', icon: MessageCircleIcon });
+            }
+            if (user.permissions?.includes(ServerAdminPermission.MANAGE_ANNOUNCEMENTS)) {
+                adminMenu.push({ name: 'Kelola Pengumuman', icon: MegaphoneIcon });
+            }
+            menu = adminMenu;
             break;
         default:
             menu = [];
@@ -79,7 +84,7 @@ const getMenuItems = (role: Role) => {
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
   const { user, onLogout, onUpdateUser, theme, onSetTheme, users, chats, announcements, onUpdateChats, onCreateAnnouncement } = props;
-  const menuItems = getMenuItems(user.role);
+  const menuItems = getMenuItems(user);
   const [activeMenu, setActiveMenu] = useState(menuItems[0]?.name || '');
 
   const renderDashboardContent = () => {

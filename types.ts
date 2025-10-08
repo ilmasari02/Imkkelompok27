@@ -15,6 +15,12 @@ export enum StaffRole {
   ALUMNI = 'Alumni',
 }
 
+export enum ServerAdminPermission {
+  MANAGE_USERS = 'manage_users',
+  MONITOR_CHATS = 'monitor_chats',
+  MANAGE_ANNOUNCEMENTS = 'manage_announcements',
+}
+
 export interface User {
   id: string;
   name: string;
@@ -25,6 +31,7 @@ export interface User {
   avatarUrl?: string;
   graduationYear?: number;
   password?: string;
+  permissions?: ServerAdminPermission[];
 }
 
 export interface ChatMessage {
