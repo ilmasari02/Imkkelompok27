@@ -165,7 +165,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto" style={{ height: '100vh' }}>
+      <main className={`flex-1 p-8 overflow-y-auto ${user.role === Role.SERVER_ADMIN ? 'server-admin-dashboard' : ''}`} style={{ height: '100vh' }}>
         {renderDashboardContent()}
       </main>
     </div>

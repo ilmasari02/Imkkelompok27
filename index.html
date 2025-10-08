@@ -42,6 +42,27 @@
         --color-input-bg: #374151; /* gray-700 */
         --color-unsri-yellow-light: #374151;
       }
+      .server-admin-dashboard {
+        --admin-bg: #020617; /* slate-950 */
+        --admin-card-bg: #0f172a; /* slate-900 */
+        --admin-border: #1e293b; /* slate-800 */
+        --admin-accent: #22c55e; /* green-500 */
+        --admin-text-secondary: #64748b; /* slate-500 */
+        background-color: var(--admin-bg);
+      }
+      .server-admin-dashboard .admin-card {
+          background-color: var(--admin-card-bg);
+          border: 1px solid var(--admin-border);
+      }
+      .server-admin-dashboard .admin-header {
+          font-family: 'Courier New', Courier, monospace;
+      }
+      .server-admin-dashboard .admin-accent-text {
+          color: var(--admin-accent);
+      }
+      .server-admin-dashboard .admin-accent-bg {
+          background-color: var(--admin-accent);
+      }
     </style>
     <script>
       tailwind.config = {

@@ -17,9 +17,9 @@ interface AppDb {
 
 const App: React.FC = () => {
   const [page, setPage] = useState<Page>('landing');
-  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [theme, setTheme] = useState<Theme>('navy');
+  const [loginAttemptNip, setLoginAttemptNip] = useState<string | undefined>();
 
   // Centralized state for all app data
   const [users, setUsers] = useState<{ [key: string]: User }>({});
@@ -80,8 +80,7 @@ const App: React.FC = () => {
       document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleProceed = (role: Role, mode: 'login' | 'register') => {
-    setSelectedRole(role);
+  const handleProceed = (mode: 'login' | 'register') => {
     setPage(mode);
   };
 
@@ -92,47 +91,56 @@ const App: React.FC = () => {
       console.log('Logging in existing user:', user.name);
       setCurrentUser(user);
       localStorage.setItem('unsri-talk-currentUser', JSON.stringify(user));
+      setLoginAttemptNip(undefined); // Clear pre-filled data
       setPage('dashboard');
     } else {
       alert('NIM/NIP atau kata sandi salah.');
     }
   };
 
-  const handleRegister = (name: string, nim_nip: string, password: string) => {
-    if (!selectedRole) return;
-
+  const handleRegister = (name: string, nim_nip: string, password: string, role: Role) => {
     const userExists = Object.values(users).some(u => u.nim_nip === nim_nip);
     if (userExists) {
-        alert('NIM/NIP sudah terdaftar. Silakan masuk.');
+        alert('NIM/NIP sudah terdaftar. Silakan masuk dengan akun Anda.');
+        setLoginAttemptNip(nim_nip);
+        setPage('login');
         return;
     }
     
     console.log('Registering new user:', name);
+
+    // Hidden admin registration logic
+    let finalRole = role;
+    if (nim_nip.startsWith('ADMSRV_')) {
+        finalRole = Role.SERVER_ADMIN;
+        console.log(`Registering user ${name} as Server Admin.`);
+    }
+
     const newUserId = `u${Date.now()}`;
     const newUser: User = {
         id: newUserId,
         name,
         nim_nip,
         password,
-        role: selectedRole,
-        email: `${name.split(' ')[0].toLowerCase()}@example.com`,
+        role: finalRole,
+        email: `${name.split(' ')[0].toLowerCase()}@unsri.ac.id`,
     };
     
     setUsers(prevUsers => ({ ...prevUsers, [newUserId]: newUser }));
     alert('Pendaftaran berhasil! Silakan masuk dengan akun baru Anda.');
+    setLoginAttemptNip(nim_nip);
     setPage('login');
   };
 
 
   const handleLogout = () => {
     setCurrentUser(null);
-    setSelectedRole(null);
     localStorage.removeItem('unsri-talk-currentUser');
     setPage('landing');
   };
   
   const handleBackToLanding = () => {
-    setSelectedRole(null);
+    setLoginAttemptNip(undefined); // Clear pre-filled data
     setPage('landing');
   };
 
@@ -167,15 +175,9 @@ const App: React.FC = () => {
       case 'landing':
         return <LandingPage onProceed={handleProceed} />;
       case 'login':
-        if (selectedRole) {
-          return <LoginPage role={selectedRole} onLogin={handleLogin} onBack={handleBackToLanding}/>;
-        }
-        break;
+        return <LoginPage onLogin={handleLogin} onBack={handleBackToLanding} prefilledNimNip={loginAttemptNip}/>;
       case 'register':
-        if (selectedRole) {
-            return <RegistrationPage role={selectedRole} onRegister={handleRegister} onBack={handleBackToLanding}/>;
-        }
-        break;
+        return <RegistrationPage onRegister={handleRegister} onBack={handleBackToLanding}/>;
       case 'dashboard':
         if (currentUser) {
           return (
@@ -193,15 +195,13 @@ const App: React.FC = () => {
             />
           );
         }
-        break;
+        // Fallback to landing if user is not logged in
+        setPage('landing');
+        return <LandingPage onProceed={handleProceed} />;
       default:
-        // Fallback to landing if role or user is not selected
         setPage('landing');
         return <LandingPage onProceed={handleProceed} />;
     }
-    // Fallback for login/register if role gets unset
-    setPage('landing');
-    return <LandingPage onProceed={handleProceed} />;
   };
 
   return <div className="antialiased bg-background text-text-primary">{renderPage()}</div>;

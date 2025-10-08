@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Role } from '../types';
 
 interface LoginPageProps {
-  role: Role;
   onLogin: (nim_nip: string, password: string) => void;
   onBack: () => void;
+  prefilledNimNip?: string;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ role, onLogin, onBack }) => {
-  const [nimNip, setNimNip] = useState('');
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack, prefilledNimNip }) => {
+  const [nimNip, setNimNip] = useState(prefilledNimNip || '');
   const [password, setPassword] = useState('');
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,7 +21,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ role, onLogin, onBack }) => {
     <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-poppins">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-bold text-text-primary">
-          Masuk sebagai <span className="text-unsri-yellow">{role}</span>
+          Masuk ke Akun Anda
         </h2>
         <p className="mt-2 text-center text-sm text-text-secondary">
           Selamat datang kembali! Silakan masukkan kredensial Anda.
@@ -93,7 +92,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ role, onLogin, onBack }) => {
                   onClick={onBack}
                   className="w-full text-center py-2 px-4 border border-border rounded-md shadow-sm text-sm font-medium text-text-secondary bg-card hover:bg-input-bg"
                 >
-                  Kembali pilih peran
+                  Kembali ke Halaman Awal
                 </button>
             </div>
           </div>
