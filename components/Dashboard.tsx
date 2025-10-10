@@ -112,7 +112,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   return (
     <div className="min-h-screen bg-background font-sans flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-card p-6 flex-shrink-0 flex flex-col justify-between">
+      <aside className="w-64 bg-card p-6 flex-shrink-0 flex flex-col justify-between border-r border-border">
         <div>
           <div className="text-center mb-10">
             <h1 className="text-xl font-bold text-text-primary">UNSRI <span className="text-unsri-yellow">TALK</span></h1>
