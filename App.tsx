@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
@@ -18,7 +19,7 @@ interface AppDb {
 const App: React.FC = () => {
   const [page, setPage] = useState<Page>('landing');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [theme, setTheme] = useState<Theme>('navy');
+  const [theme, setTheme] = useState<Theme>('light');
   const [loginAttemptNip, setLoginAttemptNip] = useState<string | undefined>();
 
   // Centralized state for all app data
@@ -30,7 +31,7 @@ const App: React.FC = () => {
   // Effect to load data from localStorage or initialize it
   useEffect(() => {
     // Load theme
-    const savedTheme = localStorage.getItem('unsri-talk-theme') || 'navy';
+    const savedTheme = localStorage.getItem('unsri-talk-theme') || 'light';
     handleSetTheme(savedTheme as Theme);
 
     // Load main database
@@ -85,7 +86,8 @@ const App: React.FC = () => {
   };
 
   const handleLogin = (nim_nip: string, password: string) => {
-    const user = Object.values(users).find(u => u.nim_nip === nim_nip);
+    // FIX: Explicitly type 'u' as User to help TypeScript inference.
+    const user = Object.values(users).find((u: User) => u.nim_nip === nim_nip);
 
     if (user && user.password === password) {
       console.log('Logging in existing user:', user.name);
@@ -99,7 +101,8 @@ const App: React.FC = () => {
   };
 
   const handleRegister = (name: string, nim_nip: string, password: string, role: Role) => {
-    const userExists = Object.values(users).some(u => u.nim_nip === nim_nip);
+    // FIX: Explicitly type 'u' as User to help TypeScript inference.
+    const userExists = Object.values(users).some((u: User) => u.nim_nip === nim_nip);
     if (userExists) {
         alert('NIM/NIP sudah terdaftar. Silakan masuk dengan akun Anda.');
         setLoginAttemptNip(nim_nip);

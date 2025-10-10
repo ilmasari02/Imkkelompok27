@@ -17,12 +17,13 @@ interface StaffDashboardProps {
 
 const ConsultationChart: React.FC<{ chats: Chat[] }> = ({ chats }) => {
     const data = useMemo(() => {
-        const counts = chats.reduce((acc, chat) => {
+        // FIX: Explicitly type the accumulator in reduce to ensure correct type inference for `counts`.
+        const counts = chats.reduce((acc: Record<ConsultationCategory, number>, chat) => {
             if (chat.topic) {
                 acc[chat.topic] = (acc[chat.topic] || 0) + 1;
             }
             return acc;
-        }, {} as Record<ConsultationCategory, number>);
+        }, {});
         
         const validCounts = Object.values(counts).filter(c => c > 0);
         if (validCounts.length === 0) return [];
