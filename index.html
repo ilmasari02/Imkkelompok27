@@ -1,111 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UNSRI TALK</title>
+    <title>UnsriTalk - Portal Komunikasi dan Konsultasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-      :root {
-        --color-unsri-yellow: #FACC15;
-        /* Base light theme yellow-light */
-        --color-unsri-yellow-light-base: #FEF9C3;
-      }
-      html[data-theme='light'] {
-        --color-background: #FFFFFF; /* unsri-bg */
-        --color-card: #FFFFFF;
-        --color-text-primary: #1E293B; /* slate-text */
-        --color-text-secondary: #475569; /* slate-600 */
-        --color-border: #E2E8F0; /* slate-200 */
-        --color-input-bg: #F1F5F9; /* slate-100 */
-        --color-unsri-yellow-light: var(--color-unsri-yellow-light-base);
-      }
-      html[data-theme='navy'] {
-        --color-background: #0F172A; /* slate-900 */
-        --color-card: #1E293B; /* slate-800 */
-        --color-text-primary: #F1F5F9; /* slate-100 */
-        --color-text-secondary: #94A3B8; /* slate-400 */
-        --color-border: #334155; /* slate-700 */
-        --color-input-bg: #334155; /* slate-700 */
-        --color-unsri-yellow-light: #334155;
-      }
-      html[data-theme='dark'] {
-        --color-background: #111827; /* gray-900 */
-        --color-card: #1F2937; /* gray-800 */
-        --color-text-primary: #F9FAFB; /* gray-50 */
-        --color-text-secondary: #9CA3AF; /* gray-400 */
-        --color-border: #374151; /* gray-700 */
-        --color-input-bg: #374151; /* gray-700 */
-        --color-unsri-yellow-light: #374151;
-      }
-      .server-admin-dashboard {
-        --admin-bg: #020617; /* slate-950 */
-        --admin-card-bg: #0f172a; /* slate-900 */
-        --admin-border: #1e293b; /* slate-800 */
-        --admin-accent: #22c55e; /* green-500 */
-        --admin-text-secondary: #64748b; /* slate-500 */
-        background-color: var(--admin-bg);
-      }
-      .server-admin-dashboard .admin-card {
-          background-color: var(--admin-card-bg);
-          border: 1px solid var(--admin-border);
-      }
-      .server-admin-dashboard .admin-header {
-          font-family: 'Courier New', Courier, monospace;
-      }
-      .server-admin-dashboard .admin-accent-text {
-          color: var(--admin-accent);
-      }
-      .server-admin-dashboard .admin-accent-bg {
-          background-color: var(--admin-accent);
-      }
-    </style>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              unsri: {
-                yellow: 'var(--color-unsri-yellow)',
-                'yellow-light': 'var(--color-unsri-yellow-light)',
-              },
-              background: 'var(--color-background)',
-              card: 'var(--color-card)',
-              'text-primary': 'var(--color-text-primary)',
-              'text-secondary': 'var(--color-text-secondary)',
-              border: 'var(--color-border)',
-              'input-bg': 'var(--color-input-bg)',
-              'slate-text': '#1E293B',
+              primary: '#0ea5e9',
+              secondary: '#7c3aed',
+              dark: '#0f172a',
+              light: '#f1f5f9',
             },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              poppins: ['Poppins', 'sans-serif'],
+            animation: {
+              'spin-slow': 'spin 3s linear infinite',
+              'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'line-load': 'line-load 1.5s linear infinite',
             },
-          },
-        },
+            keyframes: {
+              'line-load': {
+                '0%, 100%': { transform: 'translateX(-100%)' },
+                '50%': { transform: 'translateX(100%)' },
+              }
+            }
+          }
+        }
       }
     </script>
-     <script>
-      (function() {
-        const theme = localStorage.getItem('unsri-talk-theme') || 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
-  }
-}
-</script>
-</head>
-  <body>
+  </head>
+  <body class="bg-dark text-light antialiased">
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
